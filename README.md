@@ -5,7 +5,7 @@
  #### Projects
 Each project will have its own folder
 Each folder will include:
--- A README.md file summarizing the project's objective, methodology, and key results.
+- A README.md file summarizing the project's objective, methodology, and key results.
 - Relevant code files (.ipynb or .py).
 - Any outputs, such as reports or visualizations.
 - Supporting data files
