@@ -19,7 +19,7 @@ if st.button("Click me"):
 else: 
     st.write("Go ahead... click the button")
 # ------------------------
-# COLOR PICKER WIDGET h
+# COLOR PICKER WIDGET 
 # ------------------------
 
 # Creates an interactive color picker where users can choose a color.
