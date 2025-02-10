@@ -8,7 +8,7 @@
 ✅ **Dynamic Visualizations** with Bar and Scatter Charts  
 ✅ **User-Friendly Interface**
 
-## How to Run the App
+## 🐧📱 How to Run the App
 - Download the `penguins.csv` dataset:
 - Go to the /basic-streamlit-app directory
 - Run main.py [$streamlit run ./main.py]
