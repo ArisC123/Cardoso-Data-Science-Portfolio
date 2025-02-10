@@ -5,6 +5,8 @@ st.title("Welcome to the Penguin Disovery Dashboard!")
 st.divider()
 data = pd.read_csv("Data/penguins.csv")
 
+st.caption("The app is designed to help you explore the penguin dataset. You can view the dataset, summary statistics, and visualizations.")
+st.divider()
 st.write("Here's a sneak peak of our dataset:")
 st.dataframe(data.head())
 
@@ -56,11 +58,4 @@ with  tab3:
 with tab4:
     gender_make = data['sex'].value_counts()
     st.bar_chart(gender_make, x_label ='Sex', y_label = 'Count', color = '#9CAF88', width = 5, height = 300)
-
-
-
-
-
-
-
 
