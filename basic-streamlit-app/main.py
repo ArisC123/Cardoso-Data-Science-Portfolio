@@ -8,7 +8,7 @@ data = pd.read_csv("Data/penguins.csv")
 st.write("Here's a sneak peak of our dataset:")
 st.dataframe(data.head())
 
-
+st.divider()
 #Summary Statistics Portion
 st.header("Penguin Trait Averages")
 species = st.selectbox("Select the species", data['species'].unique())
@@ -30,27 +30,32 @@ st.divider()
 #Data Visualization Portion
 st.header("Data Visualizations")
 
-col6, col7 = st.columns(2)
 
-species_count = data['species'].value_counts()
-with col6:
+tab1, tab2, tab3, tab4 = st.tabs(["Species Distribution", "Island Distribution", 'Flipper & Bodymass Scatterplot', 
+                                 'Sex Makeup'])
+
+
+with tab1:
+    species_count = data['species'].value_counts()
     st.bar_chart(species_count, y_label='Species', x_label='Count', color = '#CFA8FF', width = 200, height = 300,
                  horizontal= True)
-island_porportion = data['island'].value_counts(normalize=True)
-with col7: 
+
+with tab2:
+    island_porportion = data['island'].value_counts(normalize=True)
     st.bar_chart(island_porportion*100, y_label='Island', x_label='Count', color = '#FFC0CB', width = 200, height = 300,
                  stack = True) 
 
-species_hist = st.selectbox('Select a species', data['species'].unique())
-sex_hist = st.selectbox('Select a gender', data['sex'].unique())
+with  tab3:
+    species_hist = st.selectbox('Select a species', data['species'].unique())
+    sex_hist = st.selectbox('Select a gender', data['sex'].unique())
 
-hist_data = data[(data['species'] == species_hist) & (data['sex'] == sex_hist)] 
-st.scatter_chart(hist_data, x = 'flipper_length_mm', y = 'body_mass_g', x_label = 'Flipper Length',
-                 y_label = 'Body Mass(g)', width = 10, height = 300)
+    hist_data = data[(data['species'] == species_hist) & (data['sex'] == sex_hist)] 
+    st.scatter_chart(hist_data, x = 'flipper_length_mm', y = 'body_mass_g', x_label = 'Flipper Length',
+                    y_label = 'Body Mass(g)', width = 10, height = 300)
 
-
-gender_make = data['sex'].value_counts()
-st.bar_chart(gender_make, x_label ='Sex', y_label = 'Count', color = '#9CAF88', width = 5, height = 300)
+with tab4:
+    gender_make = data['sex'].value_counts()
+    st.bar_chart(gender_make, x_label ='Sex', y_label = 'Count', color = '#9CAF88', width = 5, height = 300)
 
 
 
