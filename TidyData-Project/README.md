@@ -59,6 +59,8 @@ Data Source adapted from *[Federal R&D Budgets](https://github.com/rfordatascien
 ## Visual Examples
 Here is an example of a graph that provides insight into the dataset:
 
+![R&D Budget Pie Chart](./Assets/img/output.png)
+
 
 ## References
 Below are the resources used to build this project. Feel free to explore them for your own work.  
