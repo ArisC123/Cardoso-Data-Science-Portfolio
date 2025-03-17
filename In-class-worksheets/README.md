@@ -57,7 +57,7 @@ Below are the key departments represented in the dataset:
 Data Source adapted from *[Federal R&D Budgets](https://github.com/rfordatascience/tidytuesday/blob/main/data/2019/2019-02-12/readme.md)*
 
 ## Visual Examples
-Here is an example of one of the graphs I was able to output to show an insight into the data set: 
+Here is an example of a graph that provides insight into the dataset:
 
 
 ## References
