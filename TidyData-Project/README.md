@@ -1,29 +1,32 @@
-# Welcome to The Federal R&D Budget Dataset Exploration
+# 🎯 Welcome to The Federal R&D Budget Dataset Exploration
 
-## Overview 
-### **Project Goal**:
-The goal of this project is to analyze the relationship between GDP and Federal R&D Budgets (by department), with a focus on understanding how research and development investments correlate with economic growth. The project utilizes Pandas and Matplotlib.
-### Tidy Data Principles:
-This project uses the Tidy Data framework, which promotes a well-organized data structure designed to enhance clarity, simplify analysis, and improve visualization. 
+## 📄 Overview 
+### **📌 Project Goal**:
+The goal of this project is to analyze the relationship between 📈 **GDP** and Federal **R&D Budgets** (by department), with a focus on understanding how research and development investments correlate with economic growth. The project utilizes **Pandas** and **Matplotlib**.
 
-According to the Tidy Data framework, a data set must follow these three principles:
+### 📊 Tidy Data Principles:
+This project uses the **Tidy Data** framework, which promotes a well-organized data structure designed to enhance clarity, simplify analysis, and improve visualization. 
 
-1. Each variable forms a column
-2. Each observation forms a row
-3. Each type of observational unit forms a table
+According to the Tidy Data framework, a dataset must follow these three principles:
 
-## Instructions
-### **How to Run the Notebook**
+1️⃣ Each variable forms a column  
+2️⃣ Each observation forms a row  
+3️⃣ Each type of observational unit forms a table  
+
+---
+
+## 🛠️ Instructions
+### **💻 How to Run the Notebook**
 
 Follow these simple steps to run the notebook:
 
-1. **Install Dependencies**  
+1. **📥 Install Dependencies** 
    Run the following command in your terminal or command prompt to install the required libraries:  
    ```bash
    pip install pandas matplotlib notebook
-2. **Download the Project Files**
+2. **📂 Download the Project Files**
 
-3. **Open and Run the Notebook**
+3. **🚀 Open and Run the Notebook**
 - Navigate to the project folder in Jupyter.
 - Open the notebook file (e.g., TidyData_Analysis.ipynb
 - Run Each Cell  or just choose Run All at the top of the notebook
@@ -56,13 +59,13 @@ Below are the key departments represented in the dataset:
 
 Data Source adapted from *[Federal R&D Budgets](https://github.com/rfordatascience/tidytuesday/blob/main/data/2019/2019-02-12/readme.md)*
 
-## Visual Examples
+## 📈 Visual Examples
 Here is an example of a graph that provides insight into the dataset:
 
 ![R&D Budget Pie Chart](./Assets/img/output.png)
 
 
-## References
+## 📚 References
 Below are the resources used to build this project. Feel free to explore them for your own work.  
 
 - [Pandas Cheat Sheet](https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf)
