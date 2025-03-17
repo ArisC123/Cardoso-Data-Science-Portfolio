@@ -13,6 +13,20 @@ According to the Tidy Data framework, a data set must follow these three princip
 3. Each type of observational unit forms a table
 
 ## Instructions
+### **How to Run the Notebook**
+
+Follow these simple steps to run the notebook:
+
+1. **Install Dependencies**  
+   Run the following command in your terminal or command prompt to install the required libraries:  
+   ```bash
+   pip install pandas matplotlib notebook
+2. **Download the Project Files**
+3. **Open and Run the Notebook**
+- Navigate to the project folder in Jupyter.
+- Open the notebook file (e.g., TidyData_Analysis.ipynb
+- Run Each Cell  or just choose Run All at the top of the notebook
+
 
 ##  About the Data Set
 - The data set includes each federal department, their budgets, and GDP for each corresponding year
@@ -35,3 +49,5 @@ For reference:
 - DHS - Department of Homeland Security
 - VA - Department of Veterands Affairs
 - Other - other research and development spending
+
+Data Source adapted from This is the *[Federal R&D Budgets](https://github.com/rfordatascience/tidytuesday/blob/main/data/2019/2019-02-12/readme.md)*
