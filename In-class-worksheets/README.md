@@ -1,4 +1,4 @@
-# Welcome to The Federal R&D Budget Data Exploration
+# Welcome to The Federal R&D Budget Dataset Exploration
 
 ## Overview 
 ### **Project Goal**:
