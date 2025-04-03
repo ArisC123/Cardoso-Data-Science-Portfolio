@@ -2,7 +2,14 @@
 ## Purpose For This Portfolio  
 #### This repository, Cardoso Data Science Portfolio, serves as a showcase of my data science skills, projects, and achievements. It highlights my ability to analyze, visualize, and derive insights from data, as well as develop and deploy machine learning models
 
- #### Projects:
+ ### Projects:
+ 
+#### Basic Streamlit App: [Basic Streamlit App](https://github.com/ArisC123/Cardoso-Data-Science-Portfolio/tree/main/basic-streamlit-app)
+- An interactive **Streamlit** app that visualizes data on penguin species, showcasing my skills in web app development and data visualization. Features include dynamic charts, data filtering, and a user-friendly interface for exploring penguin characteristics.
+
+#### Tidy Data Project: [Tidy Data Project](https://github.com/ArisC123/Cardoso-Data-Science-Portfolio/tree/main/TidyData-Project)
+- This project showcases my skills in data cleaning, transformation, and visualization by utilizing tidy data principles. Using **Pandas** and **Matplotlib**, highlighting my ability to organize data for clear insights and analysis in my portfolio
+ 
 Each project will have its own folder
 Each folder will include:
 - A README.md file summarizing the project's objective, methodology, and key results.
