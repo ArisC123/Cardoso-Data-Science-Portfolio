@@ -44,7 +44,7 @@ This Streamlit app allows users to interactively explore and train machine learn
 ## 📈 Visual Examples
 Here is an example of a graph that provides insight into the dataset:
 
-![ROC Curve](./Assets/img/ROC Curve.png)
+![ROC Curve](./Assets/img/ROC-Curve.png)
 
 ## 📚 References
 Below are the resources used to build this project. Feel free to explore them for your own work.
