@@ -41,6 +41,11 @@ This Streamlit app allows users to interactively explore and train machine learn
 - Accuracy
 - ROC Curve and AUC Score
 
+## 📈 Visual Examples
+Here is an example of a graph that provides insight into the dataset:
+
+![ROC Curve]
+
 ## 📚 References
 Below are the resources used to build this project. Feel free to explore them for your own work.
 
