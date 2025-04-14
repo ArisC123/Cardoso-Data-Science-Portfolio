@@ -12,8 +12,15 @@ This Streamlit app allows users to interactively explore and train machine learn
    ```bash
    git clone https://github.com/ArisC123/Cardoso-Data-Science-Portfolio.git
    cd Cardoso-Data-Science-Portfolio/MLStreamlitApp
+   
 2. **Install Required Libraries**
-3. **Run the App**
+   ```bash
+   pip install -r requirements.txt
+   
+3.  **Run the App**
+   ```bash
+   streamlit run main.py
+   ```
 
 ### 🌐 Deployed App:
 👉 Try it here: [Machine Learning App]()
