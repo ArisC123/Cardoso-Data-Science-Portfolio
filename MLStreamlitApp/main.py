@@ -1,26 +1,45 @@
 import streamlit as st
+import numpy as np
+import seaborn as sns
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.linear_model import LogisticRegression
-import graphviz
-from sklearn import tree 
+import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, roc_auc_score
 
 st.title("Welcome to This Machine Learning App")
 st.divider()
 
-# Step 1: File upload
-st.write("Upload a CSV file to start")
-uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
+data_option = st.radio("Choose your data source:", ["Upload your own CSV", "Use Titanic sample dataset"])
 
-# Step 2: Initialize session state
-if uploaded_file and "df" not in st.session_state:
-    st.session_state.original_df = pd.read_csv(uploaded_file)
-    st.session_state.df = st.session_state.original_df.copy()
+# Track the last used dataset
+if "last_uploaded_file" not in st.session_state:
+    st.session_state.last_uploaded_file = None
 
-# Step 3: Only proceed if the file has been uploaded and stored
+# Handle data loading
+if data_option == "Upload your own CSV":
+    uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
+
+    # If a new file is uploaded or cleared
+    if uploaded_file != st.session_state.last_uploaded_file:
+        st.session_state.clear()
+        st.session_state.last_uploaded_file = uploaded_file
+
+    if uploaded_file:
+        if "df" not in st.session_state:
+            st.session_state.original_df = pd.read_csv(uploaded_file)
+            st.session_state.df = st.session_state.original_df.copy()
+
+elif data_option == "Use Titanic sample dataset":
+    if "df" not in st.session_state or st.session_state.last_uploaded_file is not None:
+        st.session_state.clear()
+        st.session_state.original_df = sns.load_dataset('titanic').drop(columns=['adult_male'])  
+        st.session_state.df = st.session_state.original_df.copy()
+        st.session_state.last_uploaded_file = None
+
+# Only proceed if the file has been uploaded and stored
 if "df" in st.session_state:
     df = st.session_state.df 
 
@@ -90,7 +109,9 @@ if "df" in st.session_state:
     with tab2 :
         # Model Selection
         st.header('Model Selection')
-        model_type = st.radio("Choose the model to train", ["Decision Tree", "Logistic Regression"])
+        model_type = st.radio("Choose the model to train", ["Logistic Regression", "Decision Tree"])
+
+        ####### Decision Tree Classifier #######
         # Setting the x and y
         if model_type == "Decision Tree":
             st.success("You selected Decision Tree")
@@ -128,24 +149,47 @@ if "df" in st.session_state:
                                                                     test_size=0.2,
                                                                     random_state=42)
                 # Initialize and train tree classification model
-                model = DecisionTreeClassifier(
+                model_DT = DecisionTreeClassifier(
                     criterion=criterion,
                     max_depth=max_depth,
                     min_samples_split=min_samples_split,
                     min_samples_leaf=min_samples_leaf,
                     random_state=42)
                 
-                model.fit(X_train, y_train)
+                model_DT.fit(X_train, y_train)
 
                 # Predict on test data
-                y_pred = model.predict(X_test)
+                y_pred = model_DT.predict(X_test)
 
                 # Calculate accuracy
                 accuracy = accuracy_score(y_test, y_pred)
-                print(f"Accuracy: {accuracy:.2f}")
+                st.subheader(f"Accuracy: {accuracy:.2f}")
+                st.caption("**Accuracy** measures the percentage of correct predictions out of all predictions made.")
+                
+                st.text("")
+
+                # Calculate ROC AUC
+                y_prob = model_DT.predict_proba(X_test)[:, 1]
+                roc_auc = roc_auc_score(y_test, y_prob)
+                fpr, tpr, thresholds = roc_curve(y_test, y_prob)
+                
+                # Plot ROC curve
+                fig, ax = plt.subplots(figsize=(6, 4))
+                ax.plot(fpr, tpr, label=f'ROC Curve (AUC = {roc_auc:.3f})')
+                ax.plot([0, 1], [0, 1], 'r--')
+                ax.set_xlabel("False Positive Rate")
+                ax.set_ylabel("True Positive Rate")
+                ax.set_title("ROC Curve")
+                ax.legend(loc='lower right')
+
+                # Display
+                st.pyplot(fig)
+                st.caption("The **ROC curve** shows the trade-off between true positive rate"
+                " and false positive rate. The **AUC (Area Under the Curve)** quantifies how "
+           "well the model distinguishes between classes. A higher AUC means better performance.")
 
 
-        
+            #######Logistic Regression#######
         elif model_type == "Logistic Regression":
             st.success("You selected Logistic Regression")
             target_col = st.selectbox("Select the target column", df.columns)
@@ -156,7 +200,8 @@ if "df" in st.session_state:
             st.subheader(f'Here are the features:\n **{list(X.columns)}**')
             st.subheader(f'Here is the target:\n **{target_col}**')
             st.sidebar.divider()
-
+            
+            # Displaying the chosen features and target variable
             col1, col2 = st.columns(2)
             with col1:
                 st.write("Preview of X:")
@@ -164,6 +209,46 @@ if "df" in st.session_state:
             with col2: 
                 st.write("Preview of y:")
                 st.dataframe(y.head())
+            if st.button("Train Model"):
+                st.divider()
+                # Model Training
+                # Split dataset into training and testing subsets
+                X_train, X_test, y_train, y_test = train_test_split(X, y,
+                                                                    test_size=0.2,
+                                                                    random_state=42)
+                # Initialize and train logistic regression model
+                model_LR = LogisticRegression()
+                model_LR.fit(X_train, y_train)
+
+                # Predict on test data
+                y_pred = model_LR.predict(X_test)
+
+                # Calculate accuracy
+                accuracy = accuracy_score(y_test, y_pred)
+                st.subheader(f"Accuracy: {accuracy:.2f}")
+                st.caption("**Accuracy** measures the percentage of correct predictions out of all predictions made.")
+                
+                st.text("")
+                
+                # Calculate ROC AUC
+                y_prob = model_LR.predict_proba(X_test)[:, 1]
+                roc_auc = roc_auc_score(y_test, y_prob)
+                fpr, tpr, thresholds = roc_curve(y_test, y_prob)
+                
+                # Plot ROC curve
+                fig, ax = plt.subplots(figsize=(6, 4))
+                ax.plot(fpr, tpr, label=f'ROC Curve (AUC = {roc_auc:.3f})')
+                ax.plot([0, 1], [0, 1], 'r--')
+                ax.set_xlabel("False Positive Rate")
+                ax.set_ylabel("True Positive Rate")
+                ax.set_title("ROC Curve")
+                ax.legend(loc='lower right')
+
+                # Display
+                st.pyplot(fig)
+                st.caption("The **ROC curve** shows the trade-off between true positive rate"
+                " and false positive rate. The **AUC (Area Under the Curve)** quantifies how "
+           "well the model distinguishes between classes. A higher AUC means better performance.")
         
   
 else:
