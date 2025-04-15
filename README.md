@@ -9,6 +9,10 @@
 
 #### Tidy Data Project: [Tidy Data Project](https://github.com/ArisC123/Cardoso-Data-Science-Portfolio/tree/main/TidyData-Project)
 - This project showcases my skills in data cleaning, transformation, and visualization by utilizing tidy data principles. Using **Pandas** and **Matplotlib**, highlighting my ability to organize data for clear insights and analysis in my portfolio
+
+#### Machine Learning Streamlit App: [MLStreamlitApp](https://github.com/ArisC123/Cardoso-Data-Science-Portfolio/tree/main/MLStreamlitApp)
+- This project showcases my skills in machine learning model building and evaluation through an interactive **Streamlit** app. It highlights my ability to integrate user interaction with model training, hyperparameter tuning, visualizations, and deployment-ready code. Using **Scikit-learn** and **Matplotlib**, highlighting my ability to train, tune, and visually interpret classification models and their evaluation metrics
+
  
 Each project will have its own folder
 Each folder will include:
