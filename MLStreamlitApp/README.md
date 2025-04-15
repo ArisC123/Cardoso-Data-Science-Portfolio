@@ -1,8 +1,8 @@
-# 📊 Machine Learning Streamlit App
+# 📊 Classification Machine Learning Streamlit App
 
 ## 🚀 Project Overview
 
-This Streamlit app allows users to interactively explore and train machine learning models on tabular datasets. Users can upload their own CSV file or choose a built-in dataset (Titanic), preprocess the data, select features, and evaluate models with visual metrics like ROC curves and accuracy scores.
+This Streamlit app allows users to interactively explore and train **classification** machine learning models on tabular datasets. Users can upload their own CSV file or choose a built-in dataset (Titanic), preprocess the data, select features, and evaluate models with visual metrics like ROC curves and accuracy scores.
 
 ## 🛠️ Instructions
 
@@ -37,11 +37,12 @@ This Streamlit app allows users to interactively explore and train machine learn
 - Encode categorical variables
 
 ### 📈 Model Selection
-- Logistic Regression
-- Decision Tree
+- Decision Tree: A non-linear model that splits the data based on feature thresholds, offering flexibility and interpretability.
+- Logistic Regression: A linear classification model useful for binary classification problems
+  
 
 ### ⚙️ Hyperparameters
-- **Decision Tree**: Criterion, Max Depth, Min Samples Split, Min Samples Leaf
+- **Decision Tree**: Users can interactively select values for **Criterion**, **Max Depth**, **Min Samples Split**, **Min Samples Leaf** to control model complexity and performance
 - **Logistic Regression**: None for this app
 
 ### 📊 Model Evaluation
