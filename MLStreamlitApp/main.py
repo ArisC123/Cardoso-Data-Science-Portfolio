@@ -195,9 +195,9 @@ if "df" in st.session_state:
             target_col = st.selectbox("Select the target column", df.columns)
             x_features = df.drop(columns=[target_col])
             X = st.multiselect("Select features for the model", x_features.columns) # Get this list of features
+            st.subheader(f'Here are the features:\n **{list(X.columns)}**')
             X = df[X] # Turn that list into a dataframe
             y = df[target_col]
-            st.subheader(f'Here are the features:\n **{list(X.columns)}**')
             st.subheader(f'Here is the target:\n **{target_col}**')
             st.sidebar.divider()
             
