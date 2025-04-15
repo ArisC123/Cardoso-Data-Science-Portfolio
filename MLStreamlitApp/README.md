@@ -23,7 +23,7 @@ This Streamlit app allows users to interactively explore and train machine learn
    ```
 
 ### 🌐 Deployed App:
-👉 Try it here: [Machine Learning App]()
+👉 Try it here: [Machine Learning App](https://cardoso-data-science-portfolio-mzzmppfiwiggftbj8u4ytj.streamlit.app/)
 
 ## ✨ App Features
 
