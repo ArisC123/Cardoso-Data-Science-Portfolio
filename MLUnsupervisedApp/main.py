@@ -40,10 +40,11 @@ else:
         df.dropna(inplace=True)
         df = pd.get_dummies(df, drop_first=False)  # Convert categorical variables to dummy variables
         target_col = st.selectbox("Select the target column", df.columns)
-        x_features = df.drop(columns=[target_col])
-        X = st.multiselect("Select features for the model", x_features.columns) # Get this list of features
+        feature_names = df.drop(columns=[target_col])
+        X = st.multiselect("Select features for the model", feature_names.columns) # Get this list of features
         X = df[X] # Turn that list into a dataframe
         y = df[target_col]
+        feature_names = X.columns.tolist()  # Get the feature names
         col1, col2 = st.columns(2)
         with col1:
                 st.write("Preview of X:")
