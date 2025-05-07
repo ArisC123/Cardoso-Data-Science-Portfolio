@@ -70,6 +70,7 @@ model_type = st.sidebar.radio("Choose a model", ["PCA", "K-Means Clustering"])
 # --- PCA Section ---
 if model_type == "PCA":
     st.header("📉 Principal Component Analysis")
+    st.caption("PCA (Principal Component Analysis) is a dimensionality reduction technique that transforms high-dimensional data into a smaller set of uncorrelated variables called principal components. These components capture the directions of maximum variance in the data, helping to simplify analysis while retaining the most important information.")
     n_components = st.slider("Number of components", 2, len(feature_names), 2)
     pca = PCA(n_components=n_components)
     X_pca = pca.fit_transform(X_std)
@@ -79,34 +80,88 @@ if model_type == "PCA":
     st.caption("Note: The explained variance ratio indicates how much information (variance) is captured by each principal component.")
 
     st.subheader("📊 PCA Bar Plot")
-    # 3d. Bar Plot: Variance Explained by Each Component
-    fig, ax = plt.subplots(figsize=(5, 4))
-    components = range(1, len(pca.explained_variance_ratio_) + 1)
+    # Assuming `pca` has already been fitted
+    explained = pca.explained_variance_ratio_ * 100  # Convert to percentage
+    components = np.arange(1, len(explained) + 1)
+    cumulative = np.cumsum(explained)
 
-    ax.bar(components, pca.explained_variance_ratio_, alpha=0.7, color='green')
-    ax.set_xlabel('Principal Component')
-    ax.set_ylabel('Variance Explained')
-    ax.set_title('Variance Explained by Each Principal Component')
-    ax.set_xticks(components)
-    ax.grid(True, axis='y')
+    # Create the plot
+    fig, ax1 = plt.subplots(figsize=(8, 6))
+
+    # Bar plot for individual variance
+    bar_color = 'steelblue'
+    ax1.bar(components, explained, color=bar_color, alpha=0.8, label='Individual Variance')
+    ax1.set_xlabel('Principal Component')
+    ax1.set_ylabel('Individual Variance Explained (%)', color=bar_color)
+    ax1.tick_params(axis='y', labelcolor=bar_color)
+    ax1.set_xticks(components)
+    ax1.set_xticklabels([f"PC{i}" for i in components])
+
+    # Add labels above bars
+    for i, v in enumerate(explained):
+        ax1.text(components[i], v + 1, f"{v:.1f}%", ha='center', va='bottom', fontsize=9)
+
+    # Line plot for cumulative variance on secondary axis
+    ax2 = ax1.twinx()
+    line_color = 'crimson'
+    ax2.plot(components, cumulative, color=line_color, marker='o', label='Cumulative Variance')
+    ax2.set_ylabel('Cumulative Variance Explained (%)', color=line_color)
+    ax2.tick_params(axis='y', labelcolor=line_color)
+    ax2.set_ylim(0, 100)
+
+    # Combine legends
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labels1 + labels2, loc='center right', bbox_to_anchor=(0.85, 0.5))
+
+    ax1.grid(False)
+    ax2.grid(False)
+
+    plt.title('PCA: Variance Explained', pad=20)
+    plt.tight_layout()
+
+    # Display in Streamlit
     st.pyplot(fig)
+    with st.expander("📘 What does this graph show?"):
+        st.write("""
+        This graph displays how much variance each principal component explains (bars), along with the cumulative variance captured as more components are included (line).  
+        It helps you decide how many components are needed to retain most of the data's information.
+        """)
 
-    st.subheader("📊 PCA Scree Plot")
-    pca_full = PCA(n_components = len(feature_names)).fit(X_std)
-    cumulative_variance = np.cumsum(pca_full.explained_variance_ratio_)
+    st.divider()
+    from sklearn.model_selection import train_test_split
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.metrics import accuracy_score, classification_report
 
-    fig, ax = plt.subplots(figsize=(8, 6))
-    ax.plot(range(1, len(cumulative_variance) + 1), cumulative_variance, marker='o')
-    ax.set_xlabel('Number of Components')
-    ax.set_ylabel('Cumulative Explained Variance')
-    ax.set_title('PCA Variance Explained')
-    ax.set_xticks(range(1, len(cumulative_variance) + 1))
-    ax.grid(True)
-    st.pyplot(fig)
+    # Split the standardized (original) data into training and test sets
+    X_train, X_test, y_train, y_test = train_test_split(X_std, y, test_size=0.2, random_state=42)
+    # Split the PCA-reduced data into training and test sets (using the same random state)
+    X_train_pca, X_test_pca, y_train, y_test = train_test_split(X_pca, y, test_size=0.2, random_state=42)
+
+    # 4a. Logistic Regression on Original Data
+    lg_model = LogisticRegression()
+    lg_model.fit(X_train, y_train)
+    y_pred = lg_model.predict(X_test)
+    accuracy_lg = accuracy_score(y_test, y_pred)
+ 
+
+    # 4a. Logistic Regression on PCA Data
+    lg_model_pca = LogisticRegression()
+    lg_model_pca.fit(X_train_pca, y_train)
+    y_pred_pca = lg_model_pca.predict(X_test_pca)
+    accuracy_lg_pca = accuracy_score(y_test, y_pred_pca)
+    
+    # Display accruacy comparison reports
+    col1, col2 = st.columns(2)
+    col1.metric(label = "Logistic Regression Accuracy with Original Data", value = f"{accuracy_lg:.3f}")
+    col2.metric(label = "Logistic Regression Accuracy with PCA Data", value = f"{accuracy_lg_pca:.3f}")
+   
+
     
 # --- K-Means Section ---
 elif model_type == "K-Means Clustering":
     st.subheader("📈 K-Means Clustering")
+    st.caption("K-Means is an unsupervised learning algorithm that groups data into k clusters based on similarity. It assigns each data point to the nearest cluster center (centroid), then updates the centroids iteratively to minimize within-cluster variance. The goal is to find natural groupings in the data without using labeled outcomes")
     k = st.slider("Number of clusters (k)", 2, 10, 3)
     kmeans = KMeans(n_clusters=k, random_state=42)
-    labels = kmeans.fit_predict(X_std)
+    cluserts = kmeans.fit_predict(X_std)
