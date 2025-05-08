@@ -6,6 +6,7 @@ from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import silhouette_score
+from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 
 # --- Main UI Header ---
@@ -15,7 +16,7 @@ st.write("Use this app to explore clustering and dimensionality reduction using 
 
 # --- Sidebar: Dataset Selection ---
 st.sidebar.title("📂 Data Input")
-use_sample = st.sidebar.checkbox("Use Breast Cancer Dataset (built-in)", value=True)
+use_sample = st.sidebar.checkbox("Use Breast Cancer Dataset (built-in)", value=False)
 uploaded_file = st.sidebar.file_uploader("Or upload your own CSV file", type=["csv"])
 
 # --- Load Data ---
@@ -40,10 +41,11 @@ else:
         df.dropna(inplace=True)
         df = pd.get_dummies(df, drop_first=False)  # Convert categorical variables to dummy variables
         target_col = st.selectbox("Select the target column", df.columns)
+        target_names = df[target_col].unique()
         feature_names = df.drop(columns=[target_col])
         X = st.multiselect("Select features for the model", feature_names.columns) # Get this list of features
         X = df[X] # Turn that list into a dataframe
-        y = df[target_col]
+        y = pd.Series(df[target_col], name = "target")
         feature_names = X.columns.tolist()  # Get the feature names
         col1, col2 = st.columns(2)
         with col1:
@@ -131,7 +133,7 @@ if model_type == "PCA":
     st.divider()
     from sklearn.model_selection import train_test_split
     from sklearn.linear_model import LogisticRegression
-    from sklearn.metrics import accuracy_score, classification_report
+    from sklearn.metrics import accuracy_score
 
     # Split the standardized (original) data into training and test sets
     X_train, X_test, y_train, y_test = train_test_split(X_std, y, test_size=0.2, random_state=42)
@@ -164,4 +166,109 @@ elif model_type == "K-Means Clustering":
     st.caption("K-Means is an unsupervised learning algorithm that groups data into k clusters based on similarity. It assigns each data point to the nearest cluster center (centroid), then updates the centroids iteratively to minimize within-cluster variance. The goal is to find natural groupings in the data without using labeled outcomes")
     k = st.slider("Number of clusters (k)", 2, 10, 3)
     kmeans = KMeans(n_clusters=k, random_state=42)
-    cluserts = kmeans.fit_predict(X_std)
+    clusters = kmeans.fit_predict(X_std)
+
+   
+    # Scatter plot for Clustering Results
+    # Reduce the data to 2 components using PCA for 2D visualization
+    st.subheader("📊 Scatter Plot - Clustering Results")
+    pca = PCA(n_components=2)
+    X_pca = pca.fit_transform(X_std)  # X_std = standardized feature data
+
+    # Create a labeled scatter plot
+    fig, ax = plt.subplots(figsize=(8, 6))
+
+    # Automatically handle any number of clusters
+    for cluster_label in np.unique(clusters):
+        ax.scatter(
+        X_pca[clusters == cluster_label, 0],
+        X_pca[clusters == cluster_label, 1],
+        label=f"Cluster {cluster_label}",
+        alpha=0.7,
+        edgecolor='k',
+        s=60)
+
+    ax.set_xlabel('Principal Component 1')
+    ax.set_ylabel('Principal Component 2')
+    ax.set_title('K-Means Clustering: 2D PCA Projection')
+    ax.legend(loc='best')
+    ax.grid(True)
+    st.pyplot(fig)
+    
+    with st.expander("📘 What does this graph show?"):
+        st.write("""
+    This scatter plot visualizes the results of K-Means clustering after reducing the dataset to two dimensions using PCA.
+    Each point represents a data sample, and the color indicates which cluster the algorithm assigned it to.
+    The plot helps reveal natural groupings or patterns in the data based on similarity.
+    """)
+    st.divider()
+    # Calculate Accuracy
+    st.subheader("Evaluating Clustering Performance")
+    kmeans_accuracy = accuracy_score(y, clusters)
+    st.write(f"Accuracy Score: {kmeans_accuracy:.2f}%")
+    #Calculate Silhouette Score
+    silhouette_avg = silhouette_score(X_std, clusters)
+    st.write(f"**Silhouette Score:** {silhouette_avg:.3f}")
+    st.caption("The silhouette score measures how well each data point fits within its cluster. Scores closer to 1 indicate well-separated, distinct clusters.")
+
+
+    #Section to show how to pick the right number of clusters
+    st.subheader("🔎 How to Choose the Right Number of Clusters (k)")
+
+    with st.expander("📘 How to choose k?"):
+        st.write("""
+        Two popular methods can help determine a good number of clusters:
+        
+        - **Elbow Method**: Plot the Within-Cluster Sum of Squares (WCSS) for different values of k. The 'elbow' is where adding more clusters doesn't improve much — a good cutoff.
+        - **Silhouette Score**: This measures how well each point fits in its cluster. The point is to compute the average silhouette score for different values of k and select the one with the highest score.
+
+        These tools can guide your k selection before running clustering.
+        """)
+
+    # --- Compute WCSS and Silhouette Scores for a range of k values
+    ks = range(2, 11)
+    wcss = []
+    silhouette_scores = []
+
+    for k in ks:
+        km = KMeans(n_clusters=k, random_state=42)
+        km.fit(X_std)
+        wcss.append(km.inertia_)  # WCSS
+        labels = km.labels_
+        silhouette_scores.append(silhouette_score(X_std, labels))
+
+    # --- Plot Elbow Method
+    col1, col2 = st.columns(2)
+    with col1:
+        fig1, ax1 = plt.subplots()
+        ax1.plot(ks, wcss, marker='o')
+        ax1.set_xlabel("Number of Clusters (k)")
+        ax1.set_ylabel("WCSS")
+        ax1.set_title("Elbow Method")
+        st.pyplot(fig1)
+
+    # --- Plot Silhouette Score
+    with col2:
+        fig2, ax2 = plt.subplots()
+        ax2.plot(ks, silhouette_scores, marker='o', color='green')
+        ax2.set_xlabel("Number of Clusters (k)")
+        ax2.set_ylabel("Silhouette Score")
+        ax2.set_title("Silhouette Score vs. k")
+        st.pyplot(fig2)
+
+    # --- Recommend the best k based on silhouette
+    best_k = ks[np.argmax(silhouette_scores)]
+    st.success(f"📈 Suggested number of clusters: **{best_k}** (based on highest silhouette score)")
+
+
+
+    
+
+
+
+
+
+    # Display plot in Streamlit
+
+
+
