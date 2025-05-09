@@ -62,7 +62,6 @@ Users can choose between:
 
 ## 📈 Visual Examples
 
-<img src="images/pca.png" alt="PCA plot" width="400"/>
 ![PCA Variance Explained Example](./Assets/img/pca.png)
 ## 📚 References
 Below are the resources used to build this project. Feel free to explore them for your own work.  
