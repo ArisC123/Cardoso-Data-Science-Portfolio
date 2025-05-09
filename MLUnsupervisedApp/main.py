@@ -33,7 +33,7 @@ if use_sample:
     st.write("**Target Classes:**", target_names)
 
 
-
+# --- Upload Data ---
 else:
     if uploaded_file is not None:
         df = pd.read_csv(uploaded_file)
@@ -42,12 +42,13 @@ else:
         df = pd.get_dummies(df, drop_first=False)  # Convert categorical variables to dummy variables
         target_col = st.selectbox("Select the target column", df.columns)
         target_names = df[target_col].unique()
-        feature_names = df.drop(columns=[target_col])
-        X = st.multiselect("Select features for the model", feature_names.columns) # Get this list of features
+        feature_names = df.columns.drop(target_col)
+        X = st.multiselect("Select features for the model", feature_names) # Get this list of features
         X = df[X] # Turn that list into a dataframe
-        y = pd.Series(df[target_col], name = "target")
+        y = df[target_col] 
         feature_names = X.columns.tolist()  # Get the feature names
         col1, col2 = st.columns(2)
+        # Display the first few rows of X and y
         with col1:
                 st.write("Preview of X:")
                 st.dataframe(X.head())
@@ -61,7 +62,9 @@ else:
 
 
 # --- Data Preparation ---
-
+# Standardize the data
+# StandardScaler standardizes features by removing the mean and scaling to unit variance
+# This is important for PCA and K-Means to ensure all features contribute equally to the distance
 scaler = StandardScaler()
 X_std = scaler.fit_transform(X)
 
@@ -78,6 +81,7 @@ if model_type == "PCA":
     X_pca = pca.fit_transform(X_std)
     explained_variance = pca.explained_variance_ratio_
 
+    # Display PCA results
     st.write(f"**Explained variance ratio:** {np.round(np.cumsum(explained_variance),2)}")
     st.caption("Note: The explained variance ratio indicates how much information (variance) is captured by each principal component.")
 
@@ -131,6 +135,7 @@ if model_type == "PCA":
         """)
 
     st.divider()
+    # now using Logistic Regression to evaluate the PCA data
     from sklearn.model_selection import train_test_split
     from sklearn.linear_model import LogisticRegression
     from sklearn.metrics import accuracy_score
@@ -140,14 +145,14 @@ if model_type == "PCA":
     # Split the PCA-reduced data into training and test sets (using the same random state)
     X_train_pca, X_test_pca, y_train, y_test = train_test_split(X_pca, y, test_size=0.2, random_state=42)
 
-    # 4a. Logistic Regression on Original Data
+    # Logistic Regression on Original Data
     lg_model = LogisticRegression()
     lg_model.fit(X_train, y_train)
     y_pred = lg_model.predict(X_test)
     accuracy_lg = accuracy_score(y_test, y_pred)
  
 
-    # 4a. Logistic Regression on PCA Data
+    # Logistic Regression on PCA Data
     lg_model_pca = LogisticRegression()
     lg_model_pca.fit(X_train_pca, y_train)
     y_pred_pca = lg_model_pca.predict(X_test_pca)
@@ -158,7 +163,6 @@ if model_type == "PCA":
     col1.metric(label = "Logistic Regression Accuracy with Original Data", value = f"{accuracy_lg:.3f}")
     col2.metric(label = "Logistic Regression Accuracy with PCA Data", value = f"{accuracy_lg_pca:.3f}")
    
-
     
 # --- K-Means Section ---
 elif model_type == "K-Means Clustering":
@@ -187,7 +191,7 @@ elif model_type == "K-Means Clustering":
         alpha=0.7,
         edgecolor='k',
         s=60)
-
+    # Graph labeling
     ax.set_xlabel('Principal Component 1')
     ax.set_ylabel('Principal Component 2')
     ax.set_title('K-Means Clustering: 2D PCA Projection')
@@ -195,17 +199,21 @@ elif model_type == "K-Means Clustering":
     ax.grid(True)
     st.pyplot(fig)
     
+    # help explain that the scatter plot shows show the model identifies the clusters
     with st.expander("📘 What does this graph show?"):
         st.write("""
     This scatter plot visualizes the results of K-Means clustering after reducing the dataset to two dimensions using PCA.
     Each point represents a data sample, and the color indicates which cluster the algorithm assigned it to.
     The plot helps reveal natural groupings or patterns in the data based on similarity.
     """)
+        
     st.divider()
     # Calculate Accuracy
     st.subheader("Evaluating Clustering Performance")
     kmeans_accuracy = accuracy_score(y, clusters)
-    st.write(f"Accuracy Score: {kmeans_accuracy:.2f}%")
+    st.write("Accuracy Score: {:.2f}%".format(kmeans_accuracy * 100))
+
+
     #Calculate Silhouette Score
     silhouette_avg = silhouette_score(X_std, clusters)
     st.write(f"**Silhouette Score:** {silhouette_avg:.3f}")
@@ -260,15 +268,6 @@ elif model_type == "K-Means Clustering":
     best_k = ks[np.argmax(silhouette_scores)]
     st.success(f"📈 Suggested number of clusters: **{best_k}** (based on highest silhouette score)")
 
-
-
-    
-
-
-
-
-
-    # Display plot in Streamlit
 
 
 
