@@ -9,10 +9,6 @@ This interactive Streamlit app allows users to explore **unsupervised machine le
 - Choose which columns to analyze
 - Adjust key hyperparameters (number of PCA components or clusters)
 - Visualize PCA variance and clustering results with clear, annotated plots
-- For **K-Means Clustering**, users can:
-  - Select the number of clusters (`k`)
-  - View the silhouette score to evaluate clustering quality
-  - See clusters displayed in 2D space (via PCA reduction)
 
 ## 🛠️ Instructions
 
@@ -50,15 +46,17 @@ Users can choose between:
 
 #### 📊 Model Performance Feedback
 - **PCA Outputs:**
-  - Explained variance ratio and cumulative variance plots (bar + line chart)
-  - 2D scatter plot of the data projected into principal component space
-  - Comparison of logistic regression accuracy on original vs. PCA-reduced data
+  - Displays explained variance ratio and cumulative variance using a dual-axis bar and line plot
+  - Includes an interactive slider to select the number of principal components
+  - Provides an interpretation of the variance plot to guide dimensionality reduction choices
+  - Trains logistic regression models on both the original and PCA-reduced datasets
+
 
 - **K-Means Outputs:**
   - Cluster assignments visualized in 2D using PCA-reduced dimensions
-  - **Silhouette Score** to evaluate the quality of clustering (higher = better)
-  - **Elbow Method** plot using Within-Cluster Sum of Squares (WCSS) to help choose the optimal number of clusters
-  - Optional: true label visualization when using datasets with known target classes
+  - Silhouette Score to evaluate the quality of clustering (higher = better)
+  - Elbow Method plot using Within-Cluster Sum of Squares (WCSS) to help choose the optimal number of clusters
+
 
 ## 📈 Visual Examples
 
