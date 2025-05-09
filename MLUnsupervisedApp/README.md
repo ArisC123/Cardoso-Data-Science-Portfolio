@@ -9,10 +9,6 @@ This interactive Streamlit app allows users to explore **unsupervised machine le
 - Choose which columns to analyze
 - Adjust key hyperparameters (number of PCA components or clusters)
 - Visualize PCA variance and clustering results with clear, annotated plots
-- For **K-Means Clustering**, users can:
-  - Select the number of clusters (`k`)
-  - View the silhouette score to evaluate clustering quality
-  - See clusters displayed in 2D space (via PCA reduction)
 
 ## 🛠️ Instructions
 
