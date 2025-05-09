@@ -27,6 +27,8 @@ This interactive Streamlit app allows users to explore **unsupervised machine le
    ```bash
    streamlit run main.py
    ```
+### 🌐 Deployed App:
+👉 Try it here: [Unsupervised Machine Learning App](https://cardoso-data-science-portfolio-bttfwxtnvqxmxmm9day3sd.streamlit.app/)
 
 ## 🧠 App Features
 
