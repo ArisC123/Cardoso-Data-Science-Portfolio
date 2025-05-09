@@ -10,7 +10,7 @@ from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 
 # --- Main UI Header ---
-st.title("🔍 PCA & K-Means Clustering Explorer")
+st.title("🔍 Unsupervised Machine Learning App")
 st.write("Use this app to explore clustering and dimensionality reduction using your own dataset or a sample one.")
 
 
