@@ -58,8 +58,8 @@ Users can choose between:
 
 - **K-Means Outputs:**
   - Cluster assignments visualized in 2D using PCA-reduced dimensions
-  - **Silhouette Score** to evaluate the quality of clustering (higher = better)
-  - **Elbow Method** plot using Within-Cluster Sum of Squares (WCSS) to help choose the optimal number of clusters
+  - Silhouette Score to evaluate the quality of clustering (higher = better)
+  - Elbow Method plot using Within-Cluster Sum of Squares (WCSS) to help choose the optimal number of clusters
 
 
 ## 📈 Visual Examples
