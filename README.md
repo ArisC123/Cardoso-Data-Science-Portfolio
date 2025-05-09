@@ -6,13 +6,18 @@
  
 #### Basic Streamlit App: [Basic Streamlit App](https://github.com/ArisC123/Cardoso-Data-Science-Portfolio/tree/main/basic-streamlit-app)
 - An interactive **Streamlit** app that visualizes data on penguin species, showcasing my skills in web app development and data visualization. Features include dynamic charts, data filtering, and a user-friendly interface for exploring penguin characteristics.
-
+---
 #### Tidy Data Project: [Tidy Data Project](https://github.com/ArisC123/Cardoso-Data-Science-Portfolio/tree/main/TidyData-Project)
 - This project showcases my skills in data cleaning, transformation, and visualization by utilizing tidy data principles. Using **Pandas** and **Matplotlib**, highlighting my ability to organize data for clear insights and analysis in my portfolio
+---
 
 #### Machine Learning Streamlit App: [MLStreamlitApp](https://github.com/ArisC123/Cardoso-Data-Science-Portfolio/tree/main/MLStreamlitApp)
 - This project showcases my skills in machine learning model building and evaluation through an interactive **Streamlit** app. It highlights my ability to integrate user interaction with model training, hyperparameter tuning, visualizations, and deployment-ready code. Using **Scikit-learn** and **Matplotlib**, highlighting my ability to train, tune, and visually interpret classification models and their evaluation metrics in my portfolio.
+---
 
+#### Unsupervised Machine Learning Streamlit App: [UnsupervisedMLStreamlitApp](https://github.com/ArisC123/Cardoso-Data-Science-Portfolio/tree/main/MLUnsupervisedApp)
+- This project demonstrates my ability to apply unsupervised machine learning techniques through an interactive **Streamlit** app. Using **Scikit-learn**, **Pandas**, and **Matplotlib**, the app allows users to explore **Principal Component Analysis (PCA)** and **K-Means Clustering** on uploaded datasets. It features variance visualization, cluster analysis with silhouette scores and elbow plots, and a comparison of logistic regression performance on original vs. PCA-reduced data. Highlighting my skills in model interpretability and user-focused interface design.
+---
  
 Each project will have its own folder
 Each folder will include:
