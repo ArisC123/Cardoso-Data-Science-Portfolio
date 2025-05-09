@@ -63,6 +63,7 @@ Users can choose between:
 ## 📈 Visual Examples
 
 ![PCA Variance Explained Example](./Assets/img/pcaMedium.jpeg)
+
 ## 📚 References
 Below are the resources used to build this project. Feel free to explore them for your own work.  
 
